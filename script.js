@@ -31,6 +31,10 @@ function initSpeechRecognition() {
             updateVoiceStatus('Listening... Speak now.');
             document.getElementById('startRecording').disabled = true;
             document.getElementById('stopRecording').disabled = false;
+            
+            // Add subtle animation to recording button
+            const stopBtn = document.getElementById('stopRecording');
+            stopBtn.style.animation = 'pulse 1s infinite';
         };
 
         recognition.onresult = (event) => {
@@ -55,6 +59,10 @@ function initSpeechRecognition() {
         recognition.onend = () => {
             isRecording = false;
             resetVoiceControls();
+            
+            // Remove animation from recording button
+            const stopBtn = document.getElementById('stopRecording');
+            stopBtn.style.animation = 'none';
         };
     } else {
         console.warn('Speech recognition not supported in this browser');
@@ -106,7 +114,12 @@ document.addEventListener('DOMContentLoaded', () => {
 function openVoiceModal(fieldName) {
     currentVoiceField = fieldName;
     const fieldLabel = document.querySelector(`label[for="${fieldName}"]`)?.textContent || fieldName;
-    document.getElementById('voiceModal').classList.add('active');
+    const voiceModal = document.getElementById('voiceModal');
+    voiceModal.classList.add('active');
+    
+    // Apply smooth animation
+    voiceModal.style.animation = 'fadeIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    
     document.getElementById('voiceStatus').textContent = `Recording for: ${fieldLabel}`;
     document.getElementById('voiceTranscript').textContent = '';
 }
@@ -376,7 +389,14 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
     healthFields.forEach(fieldId => {
-        document.getElementById(fieldId)?.addEventListener('input', calculateHealthScore);
+        const field = document.getElementById(fieldId);
+        if (field) {
+            field.addEventListener('input', (e) => {
+                // Add smooth animation when field is focused
+                e.target.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                calculateHealthScore();
+            });
+        }
     });
 
     // File upload handler
@@ -421,8 +441,10 @@ async function handleFormSubmit(event) {
     const submitBtn = document.getElementById('submitBtn');
     const statusMessage = document.getElementById('statusMessage');
     
-    // Disable submit button
+    // Disable submit button with smooth transition
     submitBtn.disabled = true;
+    submitBtn.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    submitBtn.style.animation = 'pulse 0.6s infinite';
     submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
     
     console.log('=== FORM SUBMISSION STARTED ===');
@@ -543,8 +565,10 @@ async function handleFormSubmit(event) {
         console.error('Stack trace:', error.stack);
         showStatusMessage(`❌ Error: ${error.message}`, 'error');
     } finally {
-        // Re-enable submit button
+        // Re-enable submit button with smooth animation
         submitBtn.disabled = false;
+        submitBtn.style.animation = 'none';
+        submitBtn.style.transition = 'all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
         submitBtn.innerHTML = '<span class="btn-icon">✅</span><span>Submit Health Data</span>';
     }
 }
@@ -597,21 +621,40 @@ function showStatusMessage(message, type) {
     statusMessage.textContent = message;
     statusMessage.className = `status-message ${type}`;
     
-    // Auto-hide after 5 seconds
+    // Add smooth animation
+    statusMessage.style.animation = 'slideUp 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+    
+    // Auto-hide after 5 seconds with smooth fade out
     setTimeout(() => {
-        statusMessage.className = 'status-message';
+        statusMessage.style.transition = 'opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        statusMessage.style.opacity = '0';
+        setTimeout(() => {
+            statusMessage.className = 'status-message';
+            statusMessage.style.opacity = '1';
+        }, 400);
     }, 5000);
 }
 
 // Reset form
 function resetForm() {
     if (confirm('Are you sure you want to reset all form data?')) {
-        document.getElementById('healthForm').reset();
-        document.getElementById('healthScore').textContent = '0';
-        document.getElementById('statusMessage').className = 'status-message';
+        const form = document.getElementById('healthForm');
         
-        // Reset charts
-        initCharts();
+        // Add fade out animation
+        form.style.transition = 'opacity 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)';
+        form.style.opacity = '0.5';
+        
+        setTimeout(() => {
+            form.reset();
+            document.getElementById('healthScore').textContent = '0';
+            document.getElementById('statusMessage').className = 'status-message';
+            
+            // Reset charts
+            initCharts();
+            
+            // Fade back in
+            form.style.opacity = '1';
+        }, 300);
     }
 }
 
@@ -633,6 +676,10 @@ function initCharts() {
                 responsive: true,
                 maintainAspectRatio: true,
                 cutout: '70%',
+                animation: {
+                    duration: 1000,
+                    easing: 'easeInOutQuart'
+                },
                 plugins: {
                     legend: { display: false },
                     tooltip: { enabled: false }
@@ -659,6 +706,10 @@ function initCharts() {
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
+                animation: {
+                    duration: 750,
+                    easing: 'easeInOutQuart'
+                },
                 scales: {
                     y: { beginAtZero: true }
                 }
@@ -684,6 +735,10 @@ function initCharts() {
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
+                animation: {
+                    duration: 750,
+                    easing: 'easeInOutQuart'
+                },
                 scales: {
                     y: { beginAtZero: true }
                 }
@@ -709,6 +764,10 @@ function initCharts() {
             options: {
                 responsive: true,
                 maintainAspectRatio: true,
+                animation: {
+                    duration: 750,
+                    easing: 'easeInOutQuart'
+                },
                 scales: {
                     r: { beginAtZero: true }
                 }
@@ -730,10 +789,10 @@ function updateCharts() {
             score >= 70 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444',
             '#e2e8f0'
         ];
-        healthScoreChart.update();
+        healthScoreChart.update('active');
     }
     
-    // Update Vital Signs Chart
+    // Update Vital Signs Chart with smooth animation
     if (vitalSignsChart) {
         vitalSignsChart.data.datasets[0].data = [
             parseFloat(document.getElementById('blood_pressure_systolic').value) || 0,
@@ -742,10 +801,10 @@ function updateCharts() {
             parseFloat(document.getElementById('oxygen_saturation').value) || 0,
             parseFloat(document.getElementById('temperature').value) || 0
         ];
-        vitalSignsChart.update();
+        vitalSignsChart.update('active');
     }
     
-    // Update Lab Results Chart
+    // Update Lab Results Chart with smooth animation
     if (labResultsChart) {
         labResultsChart.data.datasets[0].data = [
             parseFloat(document.getElementById('hemoglobin').value) || 0,
@@ -756,10 +815,10 @@ function updateCharts() {
             parseFloat(document.getElementById('LDL').value) || 0,
             parseFloat(document.getElementById('triglycerides').value) || 0
         ];
-        labResultsChart.update();
+        labResultsChart.update('active');
     }
     
-    // Update Lifestyle Chart
+    // Update Lifestyle Chart with smooth animation
     if (lifestyleChart) {
         const steps = parseFloat(document.getElementById('daily_steps').value) || 0;
         const sleep = parseFloat(document.getElementById('average_sleep_hours').value) || 0;
@@ -767,7 +826,6 @@ function updateCharts() {
         const water = parseFloat(document.getElementById('water_intake').value) || 0;
         const workouts = parseFloat(document.getElementById('workout_frequency').value) || 0;
         
-        // Normalize values for radar chart (0-100 scale)
         lifestyleChart.data.datasets[0].data = [
             Math.min(100, (steps / 10000) * 100),
             Math.min(100, (sleep / 9) * 100),
@@ -775,7 +833,7 @@ function updateCharts() {
             Math.min(100, (water / 3) * 100),
             Math.min(100, (workouts / 5) * 100)
         ];
-        lifestyleChart.update();
+        lifestyleChart.update('active');
     }
 }
 
@@ -787,7 +845,7 @@ function updateHealthScoreChart(score) {
             score >= 70 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444',
             '#e2e8f0'
         ];
-        healthScoreChart.update();
+        healthScoreChart.update('active');
     }
 }
 

@@ -8,33 +8,42 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Navbar -->
-    <nav class="navbar">
-        <div class="nav-container">
-            <div class="nav-brand">
-                <span class="nav-icon">🏥</span>
-                <span class="nav-title">Health Tracker</span>
+    <!-- Navigation Bar -->
+    <nav class="fixed top-0 w-full z-50 glass-effect" style="background: white; border-bottom: 1px solid #a8d4b9; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);">
+        <div style="max-width: 80rem; margin: 0 auto; padding: 0 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; height: 4rem;">
+                <div style="display: flex; align-items: center; gap: 0.5rem;">
+                    <div style="width: 2.5rem; height: 2.5rem; background: linear-gradient(135deg, #1b5f3a, #4c9b6e); border-radius: 0.625rem; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 1.25rem;">
+                        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 9c0-1 1-2 2-2s2 1 2 2m0 0v2c0 1-1 2-2 2s-2-1-2-2m0-2h4"></path>
+                            <path d="M14 9c0-1 1-2 2-2s2 1 2 2m0 0v2c0 1-1 2-2 2s-2-1-2-2m0-2h4"></path>
+                            <path d="M5 18h14a2 2 0 0 0 2-2v-5H3v5a2 2 0 0 0 2 2z"></path>
+                            <path d="M9 3v2m6-2v2"></path>
+                        </svg>
+                    </div>
+                    <span style="font-weight: 700; font-size: 1.25rem; background: linear-gradient(135deg, #1b5f3a, #0284c7); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">NutriVoice</span>
+                </div>
+                <div style="display: flex; gap: 2rem; align-items: center;">
+                    <a href="landing.html" style="color: #2e7d5d; text-decoration: none; font-weight: 500; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; position: relative;">Home</a>
+                    <a href="#form" style="color: #2e7d5d; text-decoration: none; font-weight: 500; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; position: relative;">Health Form</a>
+                    <a href="#insights" style="color: #2e7d5d; text-decoration: none; font-weight: 500; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; position: relative;">Insights</a>
+                    <a href="dashboard.html" style="color: #2e7d5d; text-decoration: none; font-weight: 500; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; position: relative;">Dashboard</a>
+                </div>
             </div>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
-                <li class="nav-item"><a href="#form" class="nav-link">Health Form</a></li>
-                <li class="nav-item"><a href="#insights" class="nav-link">Insights</a></li>
-                <li class="nav-item"><a href="#charts" class="nav-link">Charts</a></li>
-            </ul>
-            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
-                <span></span>
-                <span></span>
-                <span></span>
-            </button>
         </div>
     </nav>
 
     <!-- Main Container -->
-    <div class="main-container">
+    <div class="main-container" style="padding-top: 4rem;">
         <!-- Form Section -->
         <section id="form" class="main-section">
             <div class="section-title">
-                <span class="section-icon">📝</span>
+                <span class="section-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                    </svg>
+                </span>
                 <h2>Health Data Form</h2>
             </div>
 
@@ -46,7 +55,11 @@
                 <!-- Vital Signs Section -->
                 <div class="form-section">
                     <div class="form-section-header">
-                        <span class="section-icon">❤️</span>
+                        <span class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="12 1 3 5 3 19 12 23 21 19 21 5 12 1"></polyline>
+                            </svg>
+                        </span>
                         <h3>Vital Signs</h3>
                     </div>
                     <div class="form-grid">
@@ -55,7 +68,14 @@
                             <div class="input-with-btn">
                                 <input type="number" id="blood_pressure_systolic" name="blood_pressure_systolic" min="50" max="250" required>
                                 <button type="button" class="voice-btn" data-field="blood_pressure_systolic" title="Voice Input">
-                                    <span class="voice-icon">🎤</span>
+                                    <span class="voice-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 1a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                                        </svg>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -64,7 +84,14 @@
                             <div class="input-with-btn">
                                 <input type="number" id="blood_pressure_diastolic" name="blood_pressure_diastolic" min="30" max="150" required>
                                 <button type="button" class="voice-btn" data-field="blood_pressure_diastolic" title="Voice Input">
-                                    <span class="voice-icon">🎤</span>
+                                    <span class="voice-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 1a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                                        </svg>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -73,7 +100,14 @@
                             <div class="input-with-btn">
                                 <input type="number" id="heart_rate" name="heart_rate" min="30" max="200" required>
                                 <button type="button" class="voice-btn" data-field="heart_rate" title="Voice Input">
-                                    <span class="voice-icon">🎤</span>
+                                    <span class="voice-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 1a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                                        </svg>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -82,7 +116,14 @@
                             <div class="input-with-btn">
                                 <input type="number" id="oxygen_saturation" name="oxygen_saturation" min="70" max="100" step="0.1" required>
                                 <button type="button" class="voice-btn" data-field="oxygen_saturation" title="Voice Input">
-                                    <span class="voice-icon">🎤</span>
+                                    <span class="voice-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 1a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                                        </svg>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -91,7 +132,14 @@
                             <div class="input-with-btn">
                                 <input type="number" id="temperature" name="temperature" min="30" max="45" step="0.1" required>
                                 <button type="button" class="voice-btn" data-field="temperature" title="Voice Input">
-                                    <span class="voice-icon">🎤</span>
+                                    <span class="voice-icon">
+                                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M12 1a3 3 0 0 0-3 3v12a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path>
+                                            <path d="M19 10v2a7 7 0 0 1-14 0v-2"></path>
+                                            <line x1="12" y1="19" x2="12" y2="23"></line>
+                                            <line x1="8" y1="23" x2="16" y2="23"></line>
+                                        </svg>
+                                    </span>
                                 </button>
                             </div>
                         </div>
@@ -101,7 +149,13 @@
                 <!-- Lab Reports Section -->
                 <div class="form-section">
                     <div class="form-section-header">
-                        <span class="section-icon">🔬</span>
+                        <span class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                <line x1="12" y1="9" x2="12" y2="15"></line>
+                            </svg>
+                        </span>
                         <h3>Lab Reports</h3>
                     </div>
                     <div class="form-grid">
@@ -163,7 +217,14 @@
                 <!-- Lifestyle Data Section -->
                 <div class="form-section">
                     <div class="form-section-header">
-                        <span class="section-icon">🏃</span>
+                        <span class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 6 13.46 15.89"></polyline>
+                                <circle cx="6" cy="18" r="3"></circle>
+                                <circle cx="18" cy="6" r="3"></circle>
+                                <path d="M1 9l15-3"></path>
+                            </svg>
+                        </span>
                         <h3>Lifestyle Data</h3>
                     </div>
                     <div class="form-grid">
@@ -193,7 +254,15 @@
                 <!-- Medical History Section -->
                 <div class="form-section">
                     <div class="form-section-header">
-                        <span class="section-icon">📋</span>
+                        <span class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M3 12h18"></path>
+                                <path d="M3 6h18"></path>
+                                <path d="M3 18h18"></path>
+                                <path d="M7 12v6"></path>
+                                <path d="M7 6v6"></path>
+                            </svg>
+                        </span>
                         <h3>Medical History</h3>
                     </div>
                     <div class="form-grid">
@@ -219,7 +288,14 @@
                 <!-- Report Upload Section -->
                 <div class="form-section">
                     <div class="form-section-header">
-                        <span class="section-icon">📄</span>
+                        <span class="section-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                                <line x1="12" y1="11" x2="12" y2="17"></line>
+                                <polyline points="9 14 12 11 15 14"></polyline>
+                            </svg>
+                        </span>
                         <h3>Report Upload</h3>
                     </div>
                     <div class="form-grid">
@@ -258,11 +334,20 @@
                 <!-- Submit Button -->
                 <div class="form-actions">
                     <button type="submit" class="btn-primary" id="submitBtn">
-                        <span class="btn-icon">✅</span>
+                        <span class="btn-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="20 6 9 17 4 12"></polyline>
+                            </svg>
+                        </span>
                         <span>Submit Health Data</span>
                     </button>
                     <button type="button" class="btn-secondary" id="resetBtn">
-                        <span class="btn-icon">🔄</span>
+                        <span class="btn-icon">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 4 23 10 17 10"></polyline>
+                                <path d="M20.49 15a9 9 0 1 1-2-8.83"></path>
+                            </svg>
+                        </span>
                         <span>Reset Form</span>
                     </button>
                 </div>
@@ -275,13 +360,27 @@
         <!-- AI Insights Section -->
         <section id="insights" class="main-section">
             <div class="section-title">
-                <span class="section-icon">🤖</span>
+                <span class="section-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="1"></circle>
+                        <path d="M12 1v6m0 6v6"></path>
+                        <path d="M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24"></path>
+                        <path d="M1 12h6m6 0h6"></path>
+                        <path d="M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path>
+                    </svg>
+                </span>
                 <h2>AI-Generated Insights</h2>
             </div>
             <div class="insights-container">
                 <div class="insight-card">
                     <div class="insight-header">
-                        <span class="insight-icon">⚠️</span>
+                        <span class="insight-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="12" y1="8" x2="12" y2="12"></line>
+                                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                            </svg>
+                        </span>
                         <h3>Risk Prediction</h3>
                     </div>
                     <div class="insight-content">
@@ -290,7 +389,15 @@
                 </div>
                 <div class="insight-card">
                     <div class="insight-header">
-                        <span class="insight-icon">💡</span>
+                        <span class="insight-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="1"></circle>
+                                <path d="M12 1v6m0 6v6"></path>
+                                <path d="M4.22 4.22l4.24 4.24m5.08 5.08l4.24 4.24"></path>
+                                <path d="M1 12h6m6 0h6"></path>
+                                <path d="M4.22 19.78l4.24-4.24m5.08-5.08l4.24-4.24"></path>
+                            </svg>
+                        </span>
                         <h3>Preventive Suggestions</h3>
                     </div>
                     <div class="insight-content">
@@ -299,7 +406,14 @@
                 </div>
                 <div class="insight-card">
                     <div class="insight-header">
-                        <span class="insight-icon">📈</span>
+                        <span class="insight-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 6 13.46 15.89"></polyline>
+                                <path d="M6.82 17.18a4 4 0 0 0 5.66 0"></path>
+                                <circle cx="6" cy="18" r="3"></circle>
+                                <circle cx="18" cy="6" r="3"></circle>
+                            </svg>
+                        </span>
                         <h3>Trend Summary</h3>
                     </div>
                     <div class="insight-content">
