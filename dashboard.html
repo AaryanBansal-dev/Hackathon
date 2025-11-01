@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+    <script src="auth-config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/dist/umd/supabase.min.js"></script>
+    <script src="supabase-helper.js"></script>
 </head>
 <body>
     <nav class="fixed top-0 w-full z-50 glass-effect" style="background: white; border-bottom: 1px solid #a8d4b9; box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);">
@@ -28,6 +31,10 @@
                     <a href="index.html#form" style="color: #2e7d5d; text-decoration: none; font-weight: 500; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; position: relative;">Health Form</a>
                     <a href="index.html#insights" style="color: #2e7d5d; text-decoration: none; font-weight: 500; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; position: relative;">Insights</a>
                     <a href="dashboard.html" style="color: #2e7d5d; text-decoration: none; font-weight: 500; transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); display: inline-block; position: relative;">Dashboard</a>
+                    <div style="display: flex; align-items: center; gap: 1rem; padding-left: 1rem; border-left: 1px solid #a8d4b9;">
+                        <span id="user-info" style="color: #2e7d5d; font-size: 0.9rem;"></span>
+                        <button id="logout-btn" style="display: none; background: linear-gradient(135deg, #1b5f3a, #4c9b6e); color: white; padding: 0.5rem 1rem; border-radius: 0.625rem; border: none; cursor: pointer; font-weight: 600; font-size: 0.9rem;">Sign Out</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -60,5 +67,37 @@
         </div>
     </section>
     <script src="script.js"></script>
+    
+    <!-- Auth Check and UI Setup -->
+    <script>
+      ;(async () => {
+        // Check if user is authenticated
+        const user = await window.supabaseAuth.getCurrentUser()
+        if (!user) {
+          // Not signed in, redirect to auth
+          window.location.href = 'auth.html'
+          return
+        }
+
+        // Update navbar with user info
+        const userInfo = document.getElementById('user-info')
+        const logoutBtn = document.getElementById('logout-btn')
+        if (userInfo && logoutBtn) {
+          userInfo.textContent = `Signed in as ${user.email}`
+          logoutBtn.style.display = ''
+          logoutBtn.addEventListener('click', async () => {
+            await window.supabaseAuth.signOut()
+            window.location.href = 'auth.html'
+          })
+        }
+
+        // Subscribe to auth state changes (e.g., if signed out from another tab)
+        window.supabaseAuth.onAuthStateChange((currentUser) => {
+          if (!currentUser) {
+            window.location.href = 'auth.html'
+          }
+        })
+      })()
+    </script>
 </body>
 </html>
