@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Webhook Tester</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            padding: 30px;
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+            font-weight: 600;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            background: #f9f9ff;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .output-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #eee;
+        }
+        
+        .output-title {
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .output-box {
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            font-family: monospace;
+            font-size: 12px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+            line-height: 1.4;
+        }
+        
+        .status {
+            padding: 12px 15px;
+            border-radius: 5px;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .status.loading {
+            background: #fff3cd;
+            color: #856404;
+        }
+        
+        .status.success {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status.info {
+            background: #d1ecf1;
+            color: #0c5460;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 n8n Webhook Tester</h1>
+        
+        <form id="testerForm">
+            <div class="form-group">
+                <label for="webhookUrl">Webhook URL:</label>
+                <input 
+                    type="url" 
+                    id="webhookUrl" 
+                    value="https://agrawalaarush10.app.n8n.cloud/webhook-test/d9f36d05-587d-48cb-9976-9f4c961e57c1"
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="payload">Test Payload (JSON):</label>
+                <textarea id="payload">{
+  "blood_pressure_systolic": 120,
+  "blood_pressure_diastolic": 80,
+  "heart_rate": 72,
+  "oxygen_saturation": 98.5,
+  "temperature": 37,
+  "overall_health_score": 85,
+  "submission_date": "2025-11-01T14:30:00Z",
+  "test": true
+}</textarea>
+            </div>
+            
+            <button type="submit">🚀 Send Test Request</button>
+        </form>
+        
+        <div class="output-section">
+            <div id="status"></div>
+            <div class="output-title">📋 Console Output:</div>
+            <div class="output-box" id="output">Ready to test...</div>
+        </div>
+    </div>
+    
+    <script>
+        const form = document.getElementById('testerForm');
+        const webhookUrlInput = document.getElementById('webhookUrl');
+        const payloadInput = document.getElementById('payload');
+        const statusDiv = document.getElementById('status');
+        const outputDiv = document.getElementById('output');
+        
+        function log(message, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const line = `[${timestamp}] ${message}`;
+            outputDiv.textContent += line + '\n\n';
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+            console.log(message);
+        }
+        
+        function clearOutput() {
+            outputDiv.textContent = '';
+        }
+        
+        function showStatus(message, type) {
+            statusDiv.textContent = message;
+            statusDiv.className = `status ${type}`;
+        }
+        
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const webhookUrl = webhookUrlInput.value.trim();
+            const payloadText = payloadInput.value.trim();
+            
+            // Clear previous output
+            clearOutput();
+            showStatus('⏳ Sending request...', 'loading');
+            
+            try {
+                // Validate JSON
+                let payload;
+                try {
+                    payload = JSON.parse(payloadText);
+                } catch (err) {
+                    throw new Error(`Invalid JSON in payload: ${err.message}`);
+                }
+                
+                log(`=== REQUEST DEBUG ===`);
+                log(`Webhook URL: ${webhookUrl}`);
+                log(`Method: POST`);
+                log(`Content-Type: application/json`);
+                log(`Payload: ${JSON.stringify(payload, null, 2)}`);
+                log('');
+                
+                // Send request
+                log(`Sending request...`);
+                const response = await fetch(webhookUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(payload)
+                });
+                
+                log(`=== RESPONSE DEBUG ===`);
+                log(`Status: ${response.status} ${response.statusText}`);
+                log(`Headers:`);
+                log(`  Content-Type: ${response.headers.get('content-type')}`);
+                log(`  Content-Length: ${response.headers.get('content-length')}`);
+                
+                // Get response text
+                const responseText = await response.text();
+                log(`Response Body (raw): ${responseText}`);
+                log('');
+                
+                // Try to parse as JSON
+                try {
+                    const responseJson = JSON.parse(responseText);
+                    log(`Response JSON:`);
+                    log(JSON.stringify(responseJson, null, 2));
+                } catch (err) {
+                    log(`(Not JSON format)`);
+                }
+                
+                // Check result
+                if (response.status >= 200 && response.status < 300) {
+                    log('');
+                    log('✅ SUCCESS! Webhook received the request!');
+                    showStatus('✅ Request successful! (HTTP ' + response.status + ')', 'success');
+                } else if (response.status === 404) {
+                    log('');
+                    log('❌ 404 Not Found - Webhook URL is incorrect or inactive');
+                    showStatus('❌ 404 Not Found - Check webhook URL', 'error');
+                } else if (response.status === 405) {
+                    log('');
+                    log('❌ 405 Method Not Allowed - n8n webhook might be set to GET instead of POST');
+                    showStatus('❌ 405 Method Not Allowed', 'error');
+                } else {
+                    log('');
+                    log(`❌ HTTP ${response.status} - ${response.statusText}`);
+                    showStatus(`❌ HTTP ${response.status} Error`, 'error');
+                }
+                
+            } catch (error) {
+                log('');
+                log(`❌ ERROR: ${error.message}`);
+                log(`Stack: ${error.stack}`);
+                showStatus('❌ Error: ' + error.message, 'error');
+            }
+        });
+        
+        // Clear on first load
+        window.addEventListener('load', () => {
+            clearOutput();
+        });
+    </script>
+</body>
+</html>

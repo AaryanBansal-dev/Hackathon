@@ -39,6 +39,10 @@
             </div>
 
             <form id="healthForm" class="health-form">
+                <div class="form-notice">
+                    <p><span class="required-indicator">*</span> All fields are required</p>
+                </div>
+                
                 <!-- Vital Signs Section -->
                 <div class="form-section">
                     <div class="form-section-header">
@@ -47,45 +51,45 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="blood_pressure_systolic">Blood Pressure - Systolic (mmHg)</label>
+                            <label for="blood_pressure_systolic"><span class="required-indicator">*</span>Blood Pressure - Systolic (mmHg)</label>
                             <div class="input-with-btn">
-                                <input type="number" id="blood_pressure_systolic" name="blood_pressure_systolic" min="50" max="250">
+                                <input type="number" id="blood_pressure_systolic" name="blood_pressure_systolic" min="50" max="250" required>
                                 <button type="button" class="voice-btn" data-field="blood_pressure_systolic" title="Voice Input">
                                     <span class="voice-icon">🎤</span>
                                 </button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="blood_pressure_diastolic">Blood Pressure - Diastolic (mmHg)</label>
+                            <label for="blood_pressure_diastolic"><span class="required-indicator">*</span>Blood Pressure - Diastolic (mmHg)</label>
                             <div class="input-with-btn">
-                                <input type="number" id="blood_pressure_diastolic" name="blood_pressure_diastolic" min="30" max="150">
+                                <input type="number" id="blood_pressure_diastolic" name="blood_pressure_diastolic" min="30" max="150" required>
                                 <button type="button" class="voice-btn" data-field="blood_pressure_diastolic" title="Voice Input">
                                     <span class="voice-icon">🎤</span>
                                 </button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="heart_rate">Heart Rate (bpm)</label>
+                            <label for="heart_rate"><span class="required-indicator">*</span>Heart Rate (bpm)</label>
                             <div class="input-with-btn">
-                                <input type="number" id="heart_rate" name="heart_rate" min="30" max="200">
+                                <input type="number" id="heart_rate" name="heart_rate" min="30" max="200" required>
                                 <button type="button" class="voice-btn" data-field="heart_rate" title="Voice Input">
                                     <span class="voice-icon">🎤</span>
                                 </button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="oxygen_saturation">Oxygen Saturation (%)</label>
+                            <label for="oxygen_saturation"><span class="required-indicator">*</span>Oxygen Saturation (%)</label>
                             <div class="input-with-btn">
-                                <input type="number" id="oxygen_saturation" name="oxygen_saturation" min="70" max="100" step="0.1">
+                                <input type="number" id="oxygen_saturation" name="oxygen_saturation" min="70" max="100" step="0.1" required>
                                 <button type="button" class="voice-btn" data-field="oxygen_saturation" title="Voice Input">
                                     <span class="voice-icon">🎤</span>
                                 </button>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label for="temperature">Temperature (°C)</label>
+                            <label for="temperature"><span class="required-indicator">*</span>Temperature (°C)</label>
                             <div class="input-with-btn">
-                                <input type="number" id="temperature" name="temperature" min="30" max="45" step="0.1">
+                                <input type="number" id="temperature" name="temperature" min="30" max="45" step="0.1" required>
                                 <button type="button" class="voice-btn" data-field="temperature" title="Voice Input">
                                     <span class="voice-icon">🎤</span>
                                 </button>
@@ -102,56 +106,56 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="hemoglobin">Hemoglobin (g/dL)</label>
-                            <input type="number" id="hemoglobin" name="hemoglobin" min="5" max="20" step="0.1">
+                            <label for="hemoglobin"><span class="required-indicator">*</span>Hemoglobin (g/dL)</label>
+                            <input type="number" id="hemoglobin" name="hemoglobin" min="5" max="20" step="0.1" required>
                         </div>
                         <div class="form-group">
-                            <label for="blood_sugar_fasting">Blood Sugar - Fasting (mg/dL)</label>
-                            <input type="number" id="blood_sugar_fasting" name="blood_sugar_fasting" min="50" max="300">
+                            <label for="blood_sugar_fasting"><span class="required-indicator">*</span>Blood Sugar - Fasting (mg/dL)</label>
+                            <input type="number" id="blood_sugar_fasting" name="blood_sugar_fasting" min="50" max="300" required>
                         </div>
                         <div class="form-group">
-                            <label for="blood_sugar_pp">Blood Sugar - Post Prandial (mg/dL)</label>
-                            <input type="number" id="blood_sugar_pp" name="blood_sugar_pp" min="50" max="400">
+                            <label for="blood_sugar_pp"><span class="required-indicator">*</span>Blood Sugar - Post Prandial (mg/dL)</label>
+                            <input type="number" id="blood_sugar_pp" name="blood_sugar_pp" min="50" max="400" required>
                         </div>
                         <div class="form-group">
-                            <label for="cholesterol_total">Total Cholesterol (mg/dL)</label>
-                            <input type="number" id="cholesterol_total" name="cholesterol_total" min="50" max="500">
+                            <label for="cholesterol_total"><span class="required-indicator">*</span>Total Cholesterol (mg/dL)</label>
+                            <input type="number" id="cholesterol_total" name="cholesterol_total" min="50" max="500" required>
                         </div>
                         <div class="form-group">
-                            <label for="HDL">HDL (mg/dL)</label>
-                            <input type="number" id="HDL" name="HDL" min="10" max="200">
+                            <label for="HDL"><span class="required-indicator">*</span>HDL (mg/dL)</label>
+                            <input type="number" id="HDL" name="HDL" min="10" max="200" required>
                         </div>
                         <div class="form-group">
-                            <label for="LDL">LDL (mg/dL)</label>
-                            <input type="number" id="LDL" name="LDL" min="10" max="300">
+                            <label for="LDL"><span class="required-indicator">*</span>LDL (mg/dL)</label>
+                            <input type="number" id="LDL" name="LDL" min="10" max="300" required>
                         </div>
                         <div class="form-group">
-                            <label for="triglycerides">Triglycerides (mg/dL)</label>
-                            <input type="number" id="triglycerides" name="triglycerides" min="20" max="500">
+                            <label for="triglycerides"><span class="required-indicator">*</span>Triglycerides (mg/dL)</label>
+                            <input type="number" id="triglycerides" name="triglycerides" min="20" max="500" required>
                         </div>
                         <div class="form-group">
-                            <label for="vitamin_d">Vitamin D (ng/mL)</label>
-                            <input type="number" id="vitamin_d" name="vitamin_d" min="0" max="200" step="0.1">
+                            <label for="vitamin_d"><span class="required-indicator">*</span>Vitamin D (ng/mL)</label>
+                            <input type="number" id="vitamin_d" name="vitamin_d" min="0" max="200" step="0.1" required>
                         </div>
                         <div class="form-group">
-                            <label for="vitamin_b12">Vitamin B12 (pg/mL)</label>
-                            <input type="number" id="vitamin_b12" name="vitamin_b12" min="0" max="2000">
+                            <label for="vitamin_b12"><span class="required-indicator">*</span>Vitamin B12 (pg/mL)</label>
+                            <input type="number" id="vitamin_b12" name="vitamin_b12" min="0" max="2000" required>
                         </div>
                         <div class="form-group">
-                            <label for="calcium">Calcium (mg/dL)</label>
-                            <input type="number" id="calcium" name="calcium" min="5" max="15" step="0.1">
+                            <label for="calcium"><span class="required-indicator">*</span>Calcium (mg/dL)</label>
+                            <input type="number" id="calcium" name="calcium" min="5" max="15" step="0.1" required>
                         </div>
                         <div class="form-group">
-                            <label for="thyroid_TSH">Thyroid TSH (mIU/L)</label>
-                            <input type="number" id="thyroid_TSH" name="thyroid_TSH" min="0" max="20" step="0.01">
+                            <label for="thyroid_TSH"><span class="required-indicator">*</span>Thyroid TSH (mIU/L)</label>
+                            <input type="number" id="thyroid_TSH" name="thyroid_TSH" min="0" max="20" step="0.01" required>
                         </div>
                         <div class="form-group">
-                            <label for="thyroid_T3">Thyroid T3 (ng/dL)</label>
-                            <input type="number" id="thyroid_T3" name="thyroid_T3" min="0" max="300" step="0.1">
+                            <label for="thyroid_T3"><span class="required-indicator">*</span>Thyroid T3 (ng/dL)</label>
+                            <input type="number" id="thyroid_T3" name="thyroid_T3" min="0" max="300" step="0.1" required>
                         </div>
                         <div class="form-group">
-                            <label for="thyroid_T4">Thyroid T4 (μg/dL)</label>
-                            <input type="number" id="thyroid_T4" name="thyroid_T4" min="0" max="20" step="0.1">
+                            <label for="thyroid_T4"><span class="required-indicator">*</span>Thyroid T4 (μg/dL)</label>
+                            <input type="number" id="thyroid_T4" name="thyroid_T4" min="0" max="20" step="0.1" required>
                         </div>
                     </div>
                 </div>
@@ -164,24 +168,24 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="daily_steps">Daily Steps</label>
-                            <input type="number" id="daily_steps" name="daily_steps" min="0" max="50000">
+                            <label for="daily_steps"><span class="required-indicator">*</span>Daily Steps</label>
+                            <input type="number" id="daily_steps" name="daily_steps" min="0" max="50000" required>
                         </div>
                         <div class="form-group">
-                            <label for="average_sleep_hours">Average Sleep Hours</label>
-                            <input type="number" id="average_sleep_hours" name="average_sleep_hours" min="0" max="24" step="0.5">
+                            <label for="average_sleep_hours"><span class="required-indicator">*</span>Average Sleep Hours</label>
+                            <input type="number" id="average_sleep_hours" name="average_sleep_hours" min="0" max="24" step="0.5" required>
                         </div>
                         <div class="form-group">
-                            <label for="calories_intake">Calories Intake (kcal)</label>
-                            <input type="number" id="calories_intake" name="calories_intake" min="0" max="10000">
+                            <label for="calories_intake"><span class="required-indicator">*</span>Calories Intake (kcal)</label>
+                            <input type="number" id="calories_intake" name="calories_intake" min="0" max="10000" required>
                         </div>
                         <div class="form-group">
-                            <label for="water_intake">Water Intake (liters)</label>
-                            <input type="number" id="water_intake" name="water_intake" min="0" max="20" step="0.1">
+                            <label for="water_intake"><span class="required-indicator">*</span>Water Intake (liters)</label>
+                            <input type="number" id="water_intake" name="water_intake" min="0" max="20" step="0.1" required>
                         </div>
                         <div class="form-group">
-                            <label for="workout_frequency">Workout Frequency (times/week)</label>
-                            <input type="number" id="workout_frequency" name="workout_frequency" min="0" max="14">
+                            <label for="workout_frequency"><span class="required-indicator">*</span>Workout Frequency (times/week)</label>
+                            <input type="number" id="workout_frequency" name="workout_frequency" min="0" max="14" required>
                         </div>
                     </div>
                 </div>
@@ -194,20 +198,20 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group full-width">
-                            <label for="known_conditions">Known Conditions</label>
-                            <textarea id="known_conditions" name="known_conditions" rows="3" placeholder="e.g., Diabetes Type 2, Asthma"></textarea>
+                            <label for="known_conditions"><span class="required-indicator">*</span>Known Conditions</label>
+                            <textarea id="known_conditions" name="known_conditions" rows="3" placeholder="e.g., Diabetes Type 2, Asthma" required></textarea>
                         </div>
                         <div class="form-group full-width">
-                            <label for="medications">Medications</label>
-                            <textarea id="medications" name="medications" rows="3" placeholder="Names and frequency (optional)"></textarea>
+                            <label for="medications"><span class="required-indicator">*</span>Medications</label>
+                            <textarea id="medications" name="medications" rows="3" placeholder="Names and frequency" required></textarea>
                         </div>
                         <div class="form-group full-width">
-                            <label for="allergies">Allergies</label>
-                            <textarea id="allergies" name="allergies" rows="2" placeholder="For meal and diet suggestions"></textarea>
+                            <label for="allergies"><span class="required-indicator">*</span>Allergies</label>
+                            <textarea id="allergies" name="allergies" rows="2" placeholder="For meal and diet suggestions" required></textarea>
                         </div>
                         <div class="form-group full-width">
-                            <label for="family_history">Family History</label>
-                            <textarea id="family_history" name="family_history" rows="2" placeholder="Optional — hereditary risk mapping"></textarea>
+                            <label for="family_history"><span class="required-indicator">*</span>Family History</label>
+                            <textarea id="family_history" name="family_history" rows="2" placeholder="Hereditary risk mapping" required></textarea>
                         </div>
                     </div>
                 </div>
@@ -220,16 +224,16 @@
                     </div>
                     <div class="form-grid">
                         <div class="form-group">
-                            <label for="report_file_name">Report File Name</label>
-                            <input type="text" id="report_file_name" name="report_file_name" placeholder="e.g., blood_test_2024.pdf">
+                            <label for="report_file_name"><span class="required-indicator">*</span>Report File Name</label>
+                            <input type="text" id="report_file_name" name="report_file_name" placeholder="e.g., blood_test_2024.pdf" required>
                         </div>
                         <div class="form-group">
-                            <label for="report_date">Report Date</label>
-                            <input type="date" id="report_date" name="report_date">
+                            <label for="report_date"><span class="required-indicator">*</span>Report Date</label>
+                            <input type="date" id="report_date" name="report_date" required>
                         </div>
                         <div class="form-group">
-                            <label for="report_type">Report Type</label>
-                            <select id="report_type" name="report_type">
+                            <label for="report_type"><span class="required-indicator">*</span>Report Type</label>
+                            <select id="report_type" name="report_type" required>
                                 <option value="">Select Type</option>
                                 <option value="blood_test">Blood Test</option>
                                 <option value="lipid_profile">Lipid Profile</option>

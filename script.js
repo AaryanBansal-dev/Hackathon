@@ -249,7 +249,12 @@ function calculateHealthScore() {
     score = Math.max(0, Math.min(100, score));
     
     const roundedScore = Math.round(score);
-    document.getElementById('healthScore').textContent = roundedScore;
+    
+    // Safely update health score display if element exists
+    const healthScoreElement = document.getElementById('healthScore');
+    if (healthScoreElement) {
+        healthScoreElement.textContent = roundedScore;
+    }
     
     // Update health score status badge
     updateHealthScoreStatus(roundedScore);
@@ -263,6 +268,12 @@ function calculateHealthScore() {
 // Update health score status badge
 function updateHealthScoreStatus(score) {
     const statusElement = document.getElementById('scoreStatus');
+    
+    // If element doesn't exist, skip this update
+    if (!statusElement) {
+        return;
+    }
+    
     const badge = statusElement.querySelector('.status-badge') || document.createElement('span');
     badge.className = 'status-badge';
     
@@ -414,75 +425,122 @@ async function handleFormSubmit(event) {
     submitBtn.disabled = true;
     submitBtn.innerHTML = '<span class="loading"></span> Submitting...';
     
-    // Collect form data
-    const formData = collectFormData();
+    console.log('=== FORM SUBMISSION STARTED ===');
     
     try {
-        // Validate that at least some health data is provided
-        const hasData = Object.keys(formData).some(key => {
-            const value = formData[key];
-            return value !== null && value !== undefined && value !== '';
+        // Validate that ALL health data fields are filled
+        const form = document.getElementById('healthForm');
+        const missingFields = [];
+        
+        // List of required field names
+        const requiredFields = [
+            'blood_pressure_systolic', 'blood_pressure_diastolic', 'heart_rate', 'oxygen_saturation', 'temperature',
+            'hemoglobin', 'blood_sugar_fasting', 'blood_sugar_pp', 'cholesterol_total', 'HDL', 'LDL', 'triglycerides',
+            'vitamin_d', 'vitamin_b12', 'calcium', 'thyroid_TSH', 'thyroid_T3', 'thyroid_T4',
+            'daily_steps', 'average_sleep_hours', 'calories_intake', 'water_intake', 'workout_frequency',
+            'known_conditions', 'medications', 'allergies', 'family_history',
+            'report_file_name', 'report_date', 'report_type'
+        ];
+        
+        // Check each required field
+        requiredFields.forEach(fieldName => {
+            const field = document.getElementById(fieldName);
+            if (field) {
+                const value = field.value;
+                if (value === null || value === undefined || value.toString().trim() === '') {
+                    missingFields.push(fieldName);
+                }
+            }
         });
         
-        if (!hasData) {
-            throw new Error('Please fill in at least some health data fields');
+        console.log('Form validation - missing fields:', missingFields);
+        
+        if (missingFields.length > 0) {
+            const fieldLabels = missingFields.map(field => {
+                const fieldElement = document.getElementById(field);
+                const label = fieldElement ? fieldElement.previousElementSibling?.textContent || field : field;
+                return label.replace(/\*$/, '').trim(); // Remove asterisk if present
+            }).join(', ');
+            throw new Error(`❌ Please fill in all required fields. Missing: ${fieldLabels}`);
         }
         
+        // Collect form data after validation passes
+        const formData = collectFormData();
+        console.log('Form data collected:', formData);
+        
         // Get n8n webhook URL
-        const webhookUrl = getN8NWebhookUrl();
+        let webhookUrl = getN8NWebhookUrl();
         
-        console.log('Sending data to webhook:', webhookUrl);
-        console.log('Data:', formData);
+        // Ensure URL doesn't have trailing slash (n8n doesn't like it)
+        webhookUrl = webhookUrl.replace(/\/$/, '');
         
-        // Send to n8n webhook with CORS support
+        console.log('=== WEBHOOK REQUEST ===');
+        console.log('Webhook URL:', webhookUrl);
+        console.log('Method: POST');
+        console.log('Headers: { Content-Type: application/json }');
+        console.log('Body:', JSON.stringify(formData, null, 2));
+        
+        // Send to n8n webhook
+        console.log('📤 SENDING REQUEST TO WEBHOOK...');
         const response = await fetch(webhookUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(formData),
-            mode: 'cors',
-            credentials: 'omit'
+            body: JSON.stringify(formData)
         });
         
-        console.log('Response status:', response.status);
+        console.log('📥 RECEIVED RESPONSE');
+        console.log('Status:', response.status, response.statusText);
+        console.log('Headers:', {
+            'content-type': response.headers.get('content-type'),
+            'content-length': response.headers.get('content-length')
+        });
         
-        // Even if response is not ok, try to parse it for error details
-        let result;
+        // Get response text first to see what we're dealing with
+        const responseText = await response.text();
+        console.log('Response text (raw):', responseText);
+        
+        // Try to parse as JSON
+        let result = {};
         try {
-            result = await response.json();
+            result = JSON.parse(responseText);
+            console.log('Response JSON:', result);
         } catch (e) {
-            result = { error: 'Could not parse response' };
+            console.warn('Could not parse response as JSON:', e.message);
+            result = { message: responseText };
         }
         
-        if (!response.ok) {
-            throw new Error(`Submission failed with status ${response.status}: ${result.error || response.statusText}`);
+        // Check if request was successful
+        if (response.status >= 200 && response.status < 300) {
+            showStatusMessage('✅ Health data submitted successfully!', 'success');
+            console.log('✅ SUCCESS! Webhook received the request!');
+            console.log('=== FORM SUBMISSION COMPLETE ===');
+            
+            // Update AI insights if returned from n8n workflow
+            if (result.risk_prediction) {
+                document.getElementById('risk_prediction').value = result.risk_prediction;
+            }
+            if (result.preventive_suggestions) {
+                document.getElementById('preventive_suggestions').value = result.preventive_suggestions;
+            }
+            if (result.trend_summary) {
+                document.getElementById('trend_summary').value = result.trend_summary;
+            }
+            if (result.overall_health_score !== undefined) {
+                document.getElementById('healthScore').textContent = Math.round(result.overall_health_score);
+                updateHealthScoreChart(result.overall_health_score);
+            }
+            
+            // Update charts with current data
+            updateCharts();
+        } else {
+            throw new Error(`HTTP ${response.status}: ${result.message || response.statusText}`);
         }
-        
-        // Display success message
-        showStatusMessage('✅ Health data submitted successfully!', 'success');
-        console.log('Success response:', result);
-        
-        // Update AI insights if returned from n8n workflow
-        if (result.risk_prediction) {
-            document.getElementById('risk_prediction').value = result.risk_prediction;
-        }
-        if (result.preventive_suggestions) {
-            document.getElementById('preventive_suggestions').value = result.preventive_suggestions;
-        }
-        if (result.trend_summary) {
-            document.getElementById('trend_summary').value = result.trend_summary;
-        }
-        if (result.overall_health_score !== undefined) {
-            document.getElementById('healthScore').textContent = Math.round(result.overall_health_score);
-            updateHealthScoreChart(result.overall_health_score);
-        }
-        
-        // Update charts with current data
-        updateCharts();
         
     } catch (error) {
-        console.error('Error submitting form:', error);
+        console.error('❌ Error submitting form:', error);
+        console.error('Stack trace:', error.stack);
         showStatusMessage(`❌ Error: ${error.message}`, 'error');
     } finally {
         // Re-enable submit button
@@ -665,7 +723,8 @@ function initCharts() {
 function updateCharts() {
     // Update Health Score Chart
     if (healthScoreChart) {
-        const score = parseFloat(document.getElementById('healthScore').textContent) || 0;
+        const healthScoreElement = document.getElementById('healthScore');
+        const score = healthScoreElement ? parseFloat(healthScoreElement.textContent) || 0 : 0;
         healthScoreChart.data.datasets[0].data = [score, 100 - score];
         healthScoreChart.data.datasets[0].backgroundColor = [
             score >= 70 ? '#10b981' : score >= 50 ? '#f59e0b' : '#ef4444',
