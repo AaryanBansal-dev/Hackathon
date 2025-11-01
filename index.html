@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracking Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="nav-icon">🏥</span>
+                <span class="nav-title">Health Tracker</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="dashboard.html" class="nav-link active">Dashboard</a></li>
+                <li class="nav-item"><a href="#form" class="nav-link">Health Form</a></li>
+                <li class="nav-item"><a href="#insights" class="nav-link">Insights</a></li>
+                <li class="nav-item"><a href="#charts" class="nav-link">Charts</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Form Section -->
+        <section id="form" class="main-section">
+            <div class="section-title">
+                <span class="section-icon">📝</span>
+                <h2>Health Data Form</h2>
+            </div>
+
+            <form id="healthForm" class="health-form">
+                <!-- Vital Signs Section -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <span class="section-icon">❤️</span>
+                        <h3>Vital Signs</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="blood_pressure_systolic">Blood Pressure - Systolic (mmHg)</label>
+                            <div class="input-with-btn">
+                                <input type="number" id="blood_pressure_systolic" name="blood_pressure_systolic" min="50" max="250">
+                                <button type="button" class="voice-btn" data-field="blood_pressure_systolic" title="Voice Input">
+                                    <span class="voice-icon">🎤</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="blood_pressure_diastolic">Blood Pressure - Diastolic (mmHg)</label>
+                            <div class="input-with-btn">
+                                <input type="number" id="blood_pressure_diastolic" name="blood_pressure_diastolic" min="30" max="150">
+                                <button type="button" class="voice-btn" data-field="blood_pressure_diastolic" title="Voice Input">
+                                    <span class="voice-icon">🎤</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="heart_rate">Heart Rate (bpm)</label>
+                            <div class="input-with-btn">
+                                <input type="number" id="heart_rate" name="heart_rate" min="30" max="200">
+                                <button type="button" class="voice-btn" data-field="heart_rate" title="Voice Input">
+                                    <span class="voice-icon">🎤</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="oxygen_saturation">Oxygen Saturation (%)</label>
+                            <div class="input-with-btn">
+                                <input type="number" id="oxygen_saturation" name="oxygen_saturation" min="70" max="100" step="0.1">
+                                <button type="button" class="voice-btn" data-field="oxygen_saturation" title="Voice Input">
+                                    <span class="voice-icon">🎤</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="temperature">Temperature (°C)</label>
+                            <div class="input-with-btn">
+                                <input type="number" id="temperature" name="temperature" min="30" max="45" step="0.1">
+                                <button type="button" class="voice-btn" data-field="temperature" title="Voice Input">
+                                    <span class="voice-icon">🎤</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lab Reports Section -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <span class="section-icon">🔬</span>
+                        <h3>Lab Reports</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="hemoglobin">Hemoglobin (g/dL)</label>
+                            <input type="number" id="hemoglobin" name="hemoglobin" min="5" max="20" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="blood_sugar_fasting">Blood Sugar - Fasting (mg/dL)</label>
+                            <input type="number" id="blood_sugar_fasting" name="blood_sugar_fasting" min="50" max="300">
+                        </div>
+                        <div class="form-group">
+                            <label for="blood_sugar_pp">Blood Sugar - Post Prandial (mg/dL)</label>
+                            <input type="number" id="blood_sugar_pp" name="blood_sugar_pp" min="50" max="400">
+                        </div>
+                        <div class="form-group">
+                            <label for="cholesterol_total">Total Cholesterol (mg/dL)</label>
+                            <input type="number" id="cholesterol_total" name="cholesterol_total" min="50" max="500">
+                        </div>
+                        <div class="form-group">
+                            <label for="HDL">HDL (mg/dL)</label>
+                            <input type="number" id="HDL" name="HDL" min="10" max="200">
+                        </div>
+                        <div class="form-group">
+                            <label for="LDL">LDL (mg/dL)</label>
+                            <input type="number" id="LDL" name="LDL" min="10" max="300">
+                        </div>
+                        <div class="form-group">
+                            <label for="triglycerides">Triglycerides (mg/dL)</label>
+                            <input type="number" id="triglycerides" name="triglycerides" min="20" max="500">
+                        </div>
+                        <div class="form-group">
+                            <label for="vitamin_d">Vitamin D (ng/mL)</label>
+                            <input type="number" id="vitamin_d" name="vitamin_d" min="0" max="200" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="vitamin_b12">Vitamin B12 (pg/mL)</label>
+                            <input type="number" id="vitamin_b12" name="vitamin_b12" min="0" max="2000">
+                        </div>
+                        <div class="form-group">
+                            <label for="calcium">Calcium (mg/dL)</label>
+                            <input type="number" id="calcium" name="calcium" min="5" max="15" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="thyroid_TSH">Thyroid TSH (mIU/L)</label>
+                            <input type="number" id="thyroid_TSH" name="thyroid_TSH" min="0" max="20" step="0.01">
+                        </div>
+                        <div class="form-group">
+                            <label for="thyroid_T3">Thyroid T3 (ng/dL)</label>
+                            <input type="number" id="thyroid_T3" name="thyroid_T3" min="0" max="300" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="thyroid_T4">Thyroid T4 (μg/dL)</label>
+                            <input type="number" id="thyroid_T4" name="thyroid_T4" min="0" max="20" step="0.1">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Lifestyle Data Section -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <span class="section-icon">🏃</span>
+                        <h3>Lifestyle Data</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="daily_steps">Daily Steps</label>
+                            <input type="number" id="daily_steps" name="daily_steps" min="0" max="50000">
+                        </div>
+                        <div class="form-group">
+                            <label for="average_sleep_hours">Average Sleep Hours</label>
+                            <input type="number" id="average_sleep_hours" name="average_sleep_hours" min="0" max="24" step="0.5">
+                        </div>
+                        <div class="form-group">
+                            <label for="calories_intake">Calories Intake (kcal)</label>
+                            <input type="number" id="calories_intake" name="calories_intake" min="0" max="10000">
+                        </div>
+                        <div class="form-group">
+                            <label for="water_intake">Water Intake (liters)</label>
+                            <input type="number" id="water_intake" name="water_intake" min="0" max="20" step="0.1">
+                        </div>
+                        <div class="form-group">
+                            <label for="workout_frequency">Workout Frequency (times/week)</label>
+                            <input type="number" id="workout_frequency" name="workout_frequency" min="0" max="14">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Medical History Section -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <span class="section-icon">📋</span>
+                        <h3>Medical History</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label for="known_conditions">Known Conditions</label>
+                            <textarea id="known_conditions" name="known_conditions" rows="3" placeholder="e.g., Diabetes Type 2, Asthma"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="medications">Medications</label>
+                            <textarea id="medications" name="medications" rows="3" placeholder="Names and frequency (optional)"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="allergies">Allergies</label>
+                            <textarea id="allergies" name="allergies" rows="2" placeholder="For meal and diet suggestions"></textarea>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="family_history">Family History</label>
+                            <textarea id="family_history" name="family_history" rows="2" placeholder="Optional — hereditary risk mapping"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Report Upload Section -->
+                <div class="form-section">
+                    <div class="form-section-header">
+                        <span class="section-icon">📄</span>
+                        <h3>Report Upload</h3>
+                    </div>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="report_file_name">Report File Name</label>
+                            <input type="text" id="report_file_name" name="report_file_name" placeholder="e.g., blood_test_2024.pdf">
+                        </div>
+                        <div class="form-group">
+                            <label for="report_date">Report Date</label>
+                            <input type="date" id="report_date" name="report_date">
+                        </div>
+                        <div class="form-group">
+                            <label for="report_type">Report Type</label>
+                            <select id="report_type" name="report_type">
+                                <option value="">Select Type</option>
+                                <option value="blood_test">Blood Test</option>
+                                <option value="lipid_profile">Lipid Profile</option>
+                                <option value="vitamin_panel">Vitamin Panel</option>
+                                <option value="thyroid_panel">Thyroid Panel</option>
+                                <option value="complete_metabolic">Complete Metabolic Panel</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="report_file">Upload Report (PDF)</label>
+                            <input type="file" id="report_file" name="report_file" accept=".pdf,.jpg,.jpeg,.png">
+                            <small>Upload PDF or image of your report</small>
+                        </div>
+                        <div class="form-group full-width">
+                            <label for="parsed_text">Parsed Text from Report</label>
+                            <textarea id="parsed_text" name="parsed_text" rows="5" placeholder="Extracted text from uploaded report will appear here"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="form-actions">
+                    <button type="submit" class="btn-primary" id="submitBtn">
+                        <span class="btn-icon">✅</span>
+                        <span>Submit Health Data</span>
+                    </button>
+                    <button type="button" class="btn-secondary" id="resetBtn">
+                        <span class="btn-icon">🔄</span>
+                        <span>Reset Form</span>
+                    </button>
+                </div>
+
+                <!-- Status Messages -->
+                <div id="statusMessage" class="status-message"></div>
+            </form>
+        </section>
+
+        <!-- AI Insights Section -->
+        <section id="insights" class="main-section">
+            <div class="section-title">
+                <span class="section-icon">🤖</span>
+                <h2>AI-Generated Insights</h2>
+            </div>
+            <div class="insights-container">
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">⚠️</span>
+                        <h3>Risk Prediction</h3>
+                    </div>
+                    <div class="insight-content">
+                        <textarea id="risk_prediction" name="risk_prediction" rows="4" readonly placeholder="AI-generated risk predictions will appear here after processing"></textarea>
+                    </div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">💡</span>
+                        <h3>Preventive Suggestions</h3>
+                    </div>
+                    <div class="insight-content">
+                        <textarea id="preventive_suggestions" name="preventive_suggestions" rows="5" readonly placeholder="AI-generated diet, lifestyle, or check-up recommendations"></textarea>
+                    </div>
+                </div>
+                <div class="insight-card">
+                    <div class="insight-header">
+                        <span class="insight-icon">📈</span>
+                        <h3>Trend Summary</h3>
+                    </div>
+                    <div class="insight-content">
+                        <textarea id="trend_summary" name="trend_summary" rows="3" readonly placeholder="e.g., Blood sugar increasing by 5% weekly"></textarea>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Charts Section -->
+        <section id="charts" class="main-section">
+            <div class="section-title">
+                <span class="section-icon">📈</span>
+                <h2>Health Metrics Visualization</h2>
+            </div>
+            <div class="charts-container">
+                <div class="chart-wrapper">
+                    <h4>Vital Signs</h4>
+                    <canvas id="vitalSignsChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h4>Lab Results</h4>
+                    <canvas id="labResultsChart"></canvas>
+                </div>
+                <div class="chart-wrapper">
+                    <h4>Lifestyle Metrics</h4>
+                    <canvas id="lifestyleChart"></canvas>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Voice Input Modal -->
+    <div id="voiceModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-icon">🎤</span>
+                <h3>Voice Input</h3>
+            </div>
+            <p id="voiceStatus">Click the microphone and speak...</p>
+            <div class="voice-controls">
+                <button id="startRecording" class="btn-primary">
+                    <span class="btn-icon">▶️</span>
+                    <span>Start Recording</span>
+                </button>
+                <button id="stopRecording" class="btn-secondary" disabled>
+                    <span class="btn-icon">⏹️</span>
+                    <span>Stop Recording</span>
+                </button>
+            </div>
+            <div id="voiceTranscript"></div>
+            <button class="modal-close" onclick="document.getElementById('voiceModal').classList.remove('active')">✕</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

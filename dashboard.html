@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Tracking Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container"> 
+            <div class="nav-brand">
+                <span class="nav-icon">🏥</span>
+                <span class="nav-title">Health Tracker</span>
+            </div>
+            <ul class="nav-menu">
+                <li class="nav-item"><a href="/dashboard.html" class="nav-link active">Dashboard</a></li>
+                <li class="nav-item"><a href="/index.html#form" class="nav-link">Health Form</a></li>
+                <li class="nav-item"><a href="/index.html#insights" class="nav-link">Insights</a></li>
+                <li class="nav-item"><a href="/index.html#charts" class="nav-link">Charts</a></li>
+            </ul>
+            <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+    </nav>
+    <section id="dashboard" class="main-section">
+        <header class="section-header">
+            <h1>Health Tracking Dashboard</h1>
+            <p class="subtitle">Track your health metrics and get AI-powered insights</p>
+        </header>
+
+        <div class="health-score-card">
+            <div class="score-header">
+                <span class="section-icon">📊</span>
+                <h2>Overall Health Score</h2>
+            </div>
+            <div class="score-display">
+                <span id="healthScore" class="score-value">0</span>
+                <span class="score-label">/ 100</span>
+            </div>
+            <div class="score-status" id="scoreStatus">
+                <span class="status-badge">Enter data to calculate</span>
+            </div>
+            <canvas id="healthScoreChart"></canvas>
+        </div>
+    </section>
+    <script src="script.js"></script>
+</body>
+</html>
